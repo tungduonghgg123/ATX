@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { createChart, CandlestickSeries } from "lightweight-charts";
-import { fetchCandlestickData } from "~/services/binance";
+import { fetchCandlestickData, PADDING_GMT_OFFSET } from "~/services/binance";
 
 const CandlestickChart = ({ symbol }: { symbol: string }) => {
   const chartContainerRef = useRef<HTMLDivElement>(null);
@@ -32,7 +32,7 @@ const CandlestickChart = ({ symbol }: { symbol: string }) => {
       const { k: candle } = JSON.parse(event.data); // "k" contains candlestick data
 
       const newCandle = {
-        time: candle.t / 1000, // Convert to seconds
+        time: candle.t / 1000 + PADDING_GMT_OFFSET, // Convert to seconds
         open: parseFloat(candle.o),
         high: parseFloat(candle.h),
         low: parseFloat(candle.l),
