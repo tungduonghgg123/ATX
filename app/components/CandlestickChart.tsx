@@ -30,7 +30,6 @@ const CandlestickChart = ({ symbol }: { symbol: string }) => {
 
     ws.onmessage = (event) => {
       const { k: candle } = JSON.parse(event.data); // "k" contains candlestick data
-
       const newCandle = {
         time: candle.t / 1000 + PADDING_GMT_OFFSET, // Convert to seconds
         open: parseFloat(candle.o),
@@ -39,9 +38,7 @@ const CandlestickChart = ({ symbol }: { symbol: string }) => {
         close: parseFloat(candle.c),
       };
 
-      if (candle.x) {
-        candlestickSeries.update(newCandle);
-      }
+      candlestickSeries.update(newCandle);
     };
     return () => {
       chart.remove();
