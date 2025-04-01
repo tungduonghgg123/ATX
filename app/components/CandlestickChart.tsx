@@ -22,8 +22,30 @@ const CandlestickChart = ({ symbol }: { symbol: string }) => {
     fetchCandlestickData().then((data) => {
       candlestickSeries.setData(data);
     });
+
+    // WebSocket for real-time updates
+    const ws = new WebSocket(
+      `wss://stream.binance.com:9443/ws/${symbol.toLowerCase()}@kline_1m`
+    );
+
+    ws.onmessage = (event) => {
+      const { k: candle } = JSON.parse(event.data); // "k" contains candlestick data
+
+      const newCandle = {
+        time: candle.t / 1000, // Convert to seconds
+        open: parseFloat(candle.o),
+        high: parseFloat(candle.h),
+        low: parseFloat(candle.l),
+        close: parseFloat(candle.c),
+      };
+
+      if (candle.x) {
+        candlestickSeries.update(newCandle);
+      }
+    };
     return () => {
       chart.remove();
+      ws.close();
     };
   }, [symbol]);
 
