@@ -1,8 +1,37 @@
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { JWT_TOKEN_KEY } from "~/routes/app.login";
 
 export default function Navbar() {
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem(JWT_TOKEN_KEY);
+    if (token) {
+      try {
+        const payload = JSON.parse(atob(token.split(".")[1])); // Decode JWT payload
+        if (payload.exp * 1000 > Date.now()) {
+          setUserEmail(payload.email);
+        } else {
+          localStorage.removeItem(JWT_TOKEN_KEY); // Remove expired token
+        }
+      } catch (error) {
+        console.error("Invalid token:", error);
+        localStorage.removeItem(JWT_TOKEN_KEY);
+      }
+    }
+  }, []);
+
   return (
-    <nav style={{ backgroundColor: "#333", padding: "1rem" }}>
+    <nav
+      style={{
+        backgroundColor: "#333",
+        padding: "1rem",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+      }}
+    >
       <ul style={{ listStyleType: "none", display: "flex", gap: "20px" }}>
         <li>
           <Link to="/app" style={{ color: "#fff", textDecoration: "none" }}>
@@ -18,6 +47,26 @@ export default function Navbar() {
           </Link>
         </li>
       </ul>
+      <div>
+        {userEmail ? (
+          <span style={{ color: "#fff" }}>{userEmail}</span>
+        ) : (
+          <div style={{ display: "flex", gap: "10px" }}>
+            <Link
+              to="/app/login"
+              style={{ color: "#fff", textDecoration: "none" }}
+            >
+              Login
+            </Link>
+            <Link
+              to="/app/register"
+              style={{ color: "#fff", textDecoration: "none" }}
+            >
+              Register
+            </Link>
+          </div>
+        )}
+      </div>
     </nav>
   );
 }
