@@ -19,7 +19,7 @@ const CandlestickChart = ({ symbol }: { symbol: string }) => {
 
     // Fetch historical data
 
-    fetchCandlestickData().then((data) => {
+    fetchCandlestickData(symbol).then((data) => {
       candlestickSeries.setData(data);
     });
 
