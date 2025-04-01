@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Add this import
 
+export const JWT_TOKEN_KEY = "jwtToken"; // Export the jwtToken key constant
+
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -31,7 +33,7 @@ export default function Login() {
         return;
       }
 
-      localStorage.setItem("jwtToken", data.token); // Store JWT token in local storage
+      localStorage.setItem(JWT_TOKEN_KEY, data.token); // Use the exported constant
       alert("Login successful!"); // Show toast notification
       navigate("/app"); // Navigate to /app
       console.log("Login successful:", data);
