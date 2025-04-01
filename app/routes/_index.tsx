@@ -23,13 +23,19 @@ export default function Index() {
         alignItems: "center",
         justifyContent: "center",
         height: "100vh",
-        backgroundColor: "green",
+        width: "800px", // Limit the width to 800px
+        margin: "0 auto", // Center the content horizontally
       }}
     >
       <select
         value={symbol}
         onChange={(e) => setSymbol(e.target.value)}
-        style={{ marginBottom: "20px", padding: "10px", fontSize: "16px" }}
+        style={{
+          alignSelf: "flex-end", // Align to the end of the row
+          marginBottom: "20px",
+          padding: "10px",
+          fontSize: "16px",
+        }}
       >
         <option value={DEFAULT_TRADING_PAIR}>BTC/USDT</option>
         <option value={ETH_TRADING_PAIR}>ETH/USDT</option>
