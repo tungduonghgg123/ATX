@@ -43,7 +43,7 @@ export default function Index() {
       </select>
       <CandlestickChart symbol={symbol} />
       <p style={{ marginBottom: "20px", fontSize: "14px", color: "gray" }}>
-        This chart is a live chart (GMT +7). Data gets updated every 1 minute.
+        This is a live chart (GMT +7).
       </p>
     </div>
   );
