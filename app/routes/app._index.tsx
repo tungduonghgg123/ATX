@@ -22,7 +22,6 @@ export default function Index() {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        height: "100vh",
         width: "800px", // Limit the width to 800px
         margin: "0 auto", // Center the content horizontally
       }}
@@ -35,6 +34,8 @@ export default function Index() {
           marginBottom: "20px",
           padding: "10px",
           fontSize: "16px",
+          border: "1px solid #ccc", // Add a border
+          borderRadius: "4px", // Optional: Add rounded corners
         }}
       >
         <option value={DEFAULT_TRADING_PAIR}>BTC/USDT</option>
