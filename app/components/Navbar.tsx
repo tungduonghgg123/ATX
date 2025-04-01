@@ -2,10 +2,12 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { JWT_TOKEN_KEY } from "~/routes/app.login";
 
+export const LOCAL_STORAGE_UPDATED_EVENT = "localStorageUpdated";
+
 export default function Navbar() {
   const [userEmail, setUserEmail] = useState<string | null>(null);
 
-  useEffect(() => {
+  const updateUserEmail = () => {
     const token = localStorage.getItem(JWT_TOKEN_KEY);
     if (token) {
       try {
@@ -14,12 +16,41 @@ export default function Navbar() {
           setUserEmail(payload.email);
         } else {
           localStorage.removeItem(JWT_TOKEN_KEY); // Remove expired token
+          setUserEmail(null);
         }
       } catch (error) {
         console.error("Invalid token:", error);
         localStorage.removeItem(JWT_TOKEN_KEY);
+        setUserEmail(null);
       }
+    } else {
+      setUserEmail(null);
     }
+  };
+
+  useEffect(() => {
+    updateUserEmail();
+
+    const handleStorageChange = (event: StorageEvent) => {
+      if (event.key === JWT_TOKEN_KEY) {
+        updateUserEmail();
+      }
+    };
+
+    const handleCustomEvent = () => {
+      updateUserEmail();
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    window.addEventListener(LOCAL_STORAGE_UPDATED_EVENT, handleCustomEvent);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+      window.removeEventListener(
+        LOCAL_STORAGE_UPDATED_EVENT,
+        handleCustomEvent
+      );
+    };
   }, []);
 
   return (

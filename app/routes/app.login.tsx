@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Add this import
+import { LOCAL_STORAGE_UPDATED_EVENT } from "~/components/Navbar";
 
 export const JWT_TOKEN_KEY = "jwtToken"; // Export the jwtToken key constant
 
@@ -34,6 +35,7 @@ export default function Login() {
       }
 
       localStorage.setItem(JWT_TOKEN_KEY, data.token); // Use the exported constant
+      window.dispatchEvent(new Event(LOCAL_STORAGE_UPDATED_EVENT));
       alert("Login successful!"); // Show toast notification
       navigate("/app"); // Navigate to /app
       console.log("Login successful:", data);
