@@ -11,8 +11,15 @@ import { createReadableStreamFromReadable } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
 import { isbot } from "isbot";
 import { renderToPipeableStream } from "react-dom/server";
+import { connectDB } from "./utils/db.server"; // Adjust the path as needed
 
 const ABORT_DELAY = 5_000;
+
+// Ensure the database is connected before handling requests
+connectDB().catch((error) => {
+  console.error("Failed to connect to the database:", error);
+  process.exit(1); // Exit the process if the database connection fails
+});
 
 export default function handleRequest(
   request: Request,
