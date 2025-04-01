@@ -1,5 +1,8 @@
-import React, { useState } from "react";
-
+import { MetaFunction } from "@remix-run/react";
+import { useState } from "react";
+export const meta: MetaFunction = () => {
+  return [{ title: "ATX Auction" }];
+};
 export default function AuctionPage() {
   const [currentBid, setCurrentBid] = useState(100);
 
