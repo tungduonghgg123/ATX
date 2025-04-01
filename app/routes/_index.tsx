@@ -41,6 +41,9 @@ export default function Index() {
         <option value={ETH_TRADING_PAIR}>ETH/USDT</option>
       </select>
       <CandlestickChart symbol={symbol} />
+      <p style={{ marginBottom: "20px", fontSize: "14px", color: "gray" }}>
+        This chart is a live chart. Data gets updated every 1 minute.
+      </p>
     </div>
   );
 }
