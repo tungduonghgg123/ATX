@@ -50,7 +50,18 @@ const CandlestickChart = ({ symbol }: { symbol: string }) => {
   }, [symbol]);
 
   return (
-    <div ref={chartContainerRef} style={{ width: "100%", height: "100%" }} />
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <div
+        ref={chartContainerRef}
+        style={{ width: "800px", height: "400px" }}
+      />
+    </div>
   );
 };
 
