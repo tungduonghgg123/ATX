@@ -1,5 +1,6 @@
 import { json, MetaFunction, useLoaderData } from "@remix-run/react";
 import { Auction, IAuction } from "~/models/auction.server"; // Import the type
+import { addThousandSeparator } from "~/utils/numberFormatter";
 
 export const meta: MetaFunction = () => {
   return [{ title: "ATX Auction" }];
@@ -72,13 +73,13 @@ export default function AuctionPage() {
                 })}
               </td>
               <td style={{ border: "1px solid #ddd", padding: "8px" }}>
-                ${auction.startingPrice}
+                {addThousandSeparator(auction.startingPrice)}
               </td>
               <td style={{ border: "1px solid #ddd", padding: "8px" }}>
-                ${auction.gapPrice}
+                {addThousandSeparator(auction.gapPrice)}
               </td>
               <td style={{ border: "1px solid #ddd", padding: "8px" }}>
-                ${auction.currentPrice}
+                {addThousandSeparator(auction.currentPrice)}
               </td>
               <td style={{ border: "1px solid #ddd", padding: "8px" }}>
                 {auction.winner || "N/A"}
