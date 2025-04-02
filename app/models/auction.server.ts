@@ -19,3 +19,16 @@ auctionSchema.pre("save", function (next) {
 
 export const Auction =
   mongoose.models.Auction || mongoose.model("Auction", auctionSchema);
+
+export interface IAuction {
+  name: string;
+  startTime: Date;
+  endTime: Date;
+  startingPrice: number;
+  gapPrice: number;
+  currentPrice: number;
+  winner: string | null;
+  created_at: Date;
+  modified_at: Date;
+  _id: mongoose.Types.ObjectId;
+}
