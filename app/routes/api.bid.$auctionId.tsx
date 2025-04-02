@@ -86,7 +86,14 @@ export const action = async ({
   auction.currentPrice = bid;
   auction.winner = email; // Update the winner
   auction.modified_at = new Date(); // Update the modified date
+
+  // Cache the updated auction data in Redis
   await redis.set(`auction:${auctionId}`, JSON.stringify(auction));
+
+  // Publish the update to a Redis channel
+  await redis.publish(`auction:${auctionId}:updates`, JSON.stringify(auction));
+
+  // Update the auction price in MongoDB
   await updateAuctionPrice(auctionId, bid, email);
 
   return json(

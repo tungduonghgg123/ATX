@@ -1,8 +1,10 @@
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData, useParams } from "@remix-run/react";
 import { json } from "@remix-run/node";
 import { Auction, IAuction } from "~/models/auction.server";
 import AuctionTable from "~/components/AuctionTable";
 import AuctionComponent from "~/components/AuctionComponent";
+import { useEventSource } from "remix-utils/sse/react";
+import { useEffect, useState } from "react";
 
 export const loader = async ({ params }: { params: { id: string } }) => {
   const { id } = params;
@@ -20,10 +22,22 @@ export const loader = async ({ params }: { params: { id: string } }) => {
 
 export default function AuctionPage() {
   const auction = useLoaderData<typeof loader>();
+  const [liveAuction, setLiveAuction] = useState<IAuction | null>(null);
+  const params = useParams(); // Get params in the component
+  let data = useEventSource(`/api/auction/${params.id}/live`, {
+    event: "auction",
+  });
+  const finalAuction = liveAuction || auction; // Use liveAuction if available, otherwise fallback to the initial auction
+  useEffect(() => {
+    if (data) {
+      console.log("Received data from SSE:", data);
+      setLiveAuction(JSON.parse(data));
+    }
+  }, [data]);
   return (
     <>
-      <AuctionTable auctions={[auction]} />
-      <AuctionComponent auction={auction} />
+      <AuctionTable auctions={[finalAuction]} />
+      <AuctionComponent auction={finalAuction} />
     </>
   );
 }
