@@ -26,23 +26,69 @@ export default function AuctionPage() {
       <table className="auction-table">
         <thead>
           <tr style={{ backgroundColor: "#f4f4f4", textAlign: "left" }}>
-            <th style={{ border: "1px solid #ddd", padding: "8px" }}>Name</th>
-            <th style={{ border: "1px solid #ddd", padding: "8px" }}>
+            <th
+              style={{
+                border: "1px solid #ddd",
+                padding: "8px",
+                color: "black",
+              }}
+            >
+              Name
+            </th>
+            <th
+              style={{
+                border: "1px solid #ddd",
+                padding: "8px",
+                color: "black",
+              }}
+            >
               Start Time
             </th>
-            <th style={{ border: "1px solid #ddd", padding: "8px" }}>
+            <th
+              style={{
+                border: "1px solid #ddd",
+                padding: "8px",
+                color: "black",
+              }}
+            >
               End Time
             </th>
-            <th style={{ border: "1px solid #ddd", padding: "8px" }}>
+            <th
+              style={{
+                border: "1px solid #ddd",
+                padding: "8px",
+                color: "black",
+              }}
+            >
               Starting Price
             </th>
-            <th style={{ border: "1px solid #ddd", padding: "8px" }}>
+            <th
+              style={{
+                border: "1px solid #ddd",
+                padding: "8px",
+                color: "black",
+              }}
+            >
               Gap Price
             </th>
-            <th style={{ border: "1px solid #ddd", padding: "8px" }}>
+            <th
+              style={{
+                border: "1px solid #ddd",
+                padding: "8px",
+                color: "black",
+              }}
+            >
               Current Price
             </th>
-            <th style={{ border: "1px solid #ddd", padding: "8px" }}>Winner</th>
+            <th
+              style={{
+                border: "1px solid #ddd",
+                padding: "8px",
+                color: "black",
+              }}
+            >
+              Winner
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -52,10 +98,22 @@ export default function AuctionPage() {
               className="auction-row"
               onClick={() => navigate(`/app/auction/${auction._id}`)} // Navigate on click
             >
-              <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+              <td
+                style={{
+                  border: "1px solid #ddd",
+                  padding: "8px",
+                  color: "black",
+                }}
+              >
                 {auction.name}
               </td>
-              <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+              <td
+                style={{
+                  border: "1px solid #ddd",
+                  padding: "8px",
+                  color: "black",
+                }}
+              >
                 {new Date(auction.startTime).toLocaleString("en-GB", {
                   day: "2-digit",
                   month: "2-digit",
@@ -65,7 +123,13 @@ export default function AuctionPage() {
                   second: "2-digit",
                 })}
               </td>
-              <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+              <td
+                style={{
+                  border: "1px solid #ddd",
+                  padding: "8px",
+                  color: "black",
+                }}
+              >
                 {new Date(auction.endTime).toLocaleString("en-GB", {
                   day: "2-digit",
                   month: "2-digit",
@@ -75,16 +139,40 @@ export default function AuctionPage() {
                   second: "2-digit",
                 })}
               </td>
-              <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+              <td
+                style={{
+                  border: "1px solid #ddd",
+                  padding: "8px",
+                  color: "black",
+                }}
+              >
                 {addThousandSeparator(auction.startingPrice)}
               </td>
-              <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+              <td
+                style={{
+                  border: "1px solid #ddd",
+                  padding: "8px",
+                  color: "black",
+                }}
+              >
                 {addThousandSeparator(auction.gapPrice)}
               </td>
-              <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+              <td
+                style={{
+                  border: "1px solid #ddd",
+                  padding: "8px",
+                  color: "black",
+                }}
+              >
                 {addThousandSeparator(auction.currentPrice)}
               </td>
-              <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+              <td
+                style={{
+                  border: "1px solid #ddd",
+                  padding: "8px",
+                  color: "black",
+                }}
+              >
                 {auction.winner || "N/A"}
               </td>
             </tr>
