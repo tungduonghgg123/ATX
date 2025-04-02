@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { IAuction } from "~/models/auction.server";
+import { JWT_TOKEN_KEY } from "~/routes/app.login";
 import { addThousandSeparator } from "~/utils/numberFormatter";
 
 const AuctionComponent = ({ auction }: { auction: IAuction }) => {
@@ -14,21 +15,21 @@ const AuctionComponent = ({ auction }: { auction: IAuction }) => {
   const hasAuctionStarted = currentTime >= new Date(auction.startTime);
   const hasAuctionEnded = currentTime > new Date(auction.endTime);
 
-  const handleBidSubmit = () => {
+  const handleBidSubmit = async () => {
     const bid = parseFloat(bidAmount);
     if (isNaN(bid)) {
       setErrorMessage("Please enter a valid number.");
       return;
     }
 
-    if (bid <= auction.startingPrice) {
-      setErrorMessage("Bid must be higher than the starting price.");
+    if (bid < auction.startingPrice) {
+      setErrorMessage("Bid must not be less than the starting price.");
       return;
     }
 
-    if (bid <= auction.currentPrice + auction.gapPrice) {
+    if (bid < auction.currentPrice + auction.gapPrice) {
       setErrorMessage(
-        `Bid must be higher than the current price plus the gap price (${addThousandSeparator(
+        `Bid must not be less than the current price plus the gap price (${addThousandSeparator(
           auction.currentPrice + auction.gapPrice
         )}).`
       );
@@ -36,8 +37,35 @@ const AuctionComponent = ({ auction }: { auction: IAuction }) => {
     }
 
     setErrorMessage(""); // Clear error message if validation passes
-    console.log(`Bid submitted: ${bidAmount}`);
-    // Handle bid submission logic here
+
+    const token = localStorage.getItem(JWT_TOKEN_KEY);
+    if (!token) {
+      setErrorMessage("Authentication token is missing. Please log in.");
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/bid/${auction._id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ bid }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        setErrorMessage(errorData.message || "Failed to submit bid.");
+        return;
+      }
+
+      console.log("Bid submitted successfully.");
+      // Optionally, update the UI or auction state here
+    } catch (error) {
+      console.error("Error submitting bid:", error);
+      setErrorMessage("An error occurred while submitting your bid.");
+    }
   };
 
   return (
