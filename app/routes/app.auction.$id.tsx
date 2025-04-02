@@ -1,6 +1,7 @@
 import { useLoaderData } from "@remix-run/react";
 import { json } from "@remix-run/node";
 import { Auction, IAuction } from "~/models/auction.server";
+import AuctionTable from "~/components/AuctionTable";
 
 export const loader = async ({ params }: { params: { id: string } }) => {
   const { id } = params;
@@ -18,5 +19,5 @@ export const loader = async ({ params }: { params: { id: string } }) => {
 
 export default function AuctionPage() {
   const auction = useLoaderData<typeof loader>();
-  return "ahihi";
+  return <AuctionTable auctions={[auction]} />; // Pass the auction as an array to AuctionTable
 }
