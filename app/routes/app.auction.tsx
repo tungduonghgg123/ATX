@@ -1,4 +1,9 @@
-import { json, MetaFunction, useLoaderData } from "@remix-run/react";
+import {
+  json,
+  MetaFunction,
+  useLoaderData,
+  useNavigate,
+} from "@remix-run/react";
 import { Auction, IAuction } from "~/models/auction.server"; // Import the type
 import { addThousandSeparator } from "~/utils/numberFormatter";
 
@@ -13,13 +18,12 @@ export const loader = async () => {
 
 export default function AuctionPage() {
   const auctions = useLoaderData<typeof loader>();
+  const navigate = useNavigate(); // Initialize navigate
 
   return (
     <div>
       <h2>All Auctions</h2>
-      <table
-        style={{ width: "100%", borderCollapse: "collapse", marginTop: "20px" }}
-      >
+      <table className="auction-table">
         <thead>
           <tr style={{ backgroundColor: "#f4f4f4", textAlign: "left" }}>
             <th style={{ border: "1px solid #ddd", padding: "8px" }}>Name</th>
@@ -42,12 +46,11 @@ export default function AuctionPage() {
           </tr>
         </thead>
         <tbody>
-          {auctions.map((auction, index) => (
+          {auctions.map((auction) => (
             <tr
               key={auction._id}
-              style={{
-                backgroundColor: index % 2 === 0 ? "#f9f9f9" : "#ffffff",
-              }}
+              className="auction-row"
+              onClick={() => navigate(`/app/auction/${auction._id}`)} // Navigate on click
             >
               <td style={{ border: "1px solid #ddd", padding: "8px" }}>
                 {auction.name}
