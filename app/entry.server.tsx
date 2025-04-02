@@ -12,6 +12,7 @@ import { RemixServer } from "@remix-run/react";
 import { isbot } from "isbot";
 import { renderToPipeableStream } from "react-dom/server";
 import { connectDB } from "./utils/db.server"; // Adjust the path as needed
+// import "./utils/kafka.server";
 
 const ABORT_DELAY = 5_000;
 
