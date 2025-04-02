@@ -3,16 +3,8 @@ import jwt from "jsonwebtoken";
 import redis from "../utils/redis.server"; // Adjust the import path as needed
 import { getAuctionById, updateAuctionPrice } from "../utils/mongodb.server"; // Add MongoDB utility functions
 import { IAuction } from "~/models/auction.server";
-// ...existing code...
 
-export const action = async ({
-  request,
-  params,
-}: {
-  request: Request;
-  params: { auctionId: string };
-}) => {
-  const authHeader = request.headers.get("Authorization");
+function verifyToken(authHeader: string | null): string {
   if (!authHeader) {
     throw json({ error: "Authorization header is missing" }, { status: 401 });
   }
@@ -23,10 +15,25 @@ export const action = async ({
   }
 
   try {
-    jwt.verify(token, process.env.JWT_SECRET || "default_secret");
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_SECRET || "default_secret"
+    ) as { email: string };
+    return decoded.email;
   } catch (err) {
     throw json({ error: "Invalid token" }, { status: 403 });
   }
+}
+
+export const action = async ({
+  request,
+  params,
+}: {
+  request: Request;
+  params: { auctionId: string };
+}) => {
+  const authHeader = request.headers.get("Authorization");
+  const email = verifyToken(authHeader);
 
   const auctionId = params.auctionId;
   if (!auctionId) {
@@ -77,8 +84,13 @@ export const action = async ({
 
   // Update the new price in Redis and MongoDB
   auction.currentPrice = bid;
+  auction.winner = email; // Update the winner
+  auction.modified_at = new Date(); // Update the modified date
   await redis.set(`auction:${auctionId}`, JSON.stringify(auction));
-  await updateAuctionPrice(auctionId, bid);
+  await updateAuctionPrice(auctionId, bid, email);
 
-  return json({ message: "Bid accepted", currentPrice: bid }, { status: 200 });
+  return json(
+    { message: "Bid accepted", currentPrice: bid, email },
+    { status: 200 }
+  );
 };
