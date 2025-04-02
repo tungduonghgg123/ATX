@@ -60,7 +60,7 @@ const AuctionComponent = ({ auction }: { auction: IAuction }) => {
         return;
       }
 
-      console.log("Bid submitted successfully.");
+      alert("Bid submitted successfully.");
       // Optionally, update the UI or auction state here
     } catch (error) {
       console.error("Error submitting bid:", error);
