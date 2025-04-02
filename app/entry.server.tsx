@@ -13,7 +13,7 @@ import { isbot } from "isbot";
 import { renderToPipeableStream } from "react-dom/server";
 import { connectDB } from "./utils/db.server"; // Adjust the path as needed
 // import "./utils/kafka.server";
-
+import "./utils/redis.server";
 const ABORT_DELAY = 5_000;
 
 // Ensure the database is connected before handling requests
