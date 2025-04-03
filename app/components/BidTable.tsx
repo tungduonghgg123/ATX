@@ -1,6 +1,7 @@
 import { addThousandSeparator } from "~/utils/numberFormatter";
 import { IBid } from "~/models/bid.server";
 import { formatDistanceToNow } from "date-fns";
+import { RelativeTime } from "./RelativeTime";
 interface BidTableProps {
   bids: IBid[];
 }
@@ -54,6 +55,7 @@ export default function BidTable({ bids }: BidTableProps) {
               }}
             >
               {formatDistanceToNow(bid.created_at, { addSuffix: true })}
+              <RelativeTime date={bid.created_at} />
             </td>
             <td
               style={{

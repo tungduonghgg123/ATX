@@ -1,7 +1,7 @@
 import { useNavigate } from "@remix-run/react";
 import { addThousandSeparator } from "~/utils/numberFormatter";
 import { IAuction } from "~/models/auction.server";
-import { formatDistanceToNow } from "date-fns";
+import { RelativeTime } from "./RelativeTime";
 interface AuctionTableProps {
   auctions: IAuction[];
   disableOnClick?: boolean; // New prop to disable onClick
@@ -84,7 +84,7 @@ export default function AuctionTable({
                 color: "black",
               }}
             >
-              {formatDistanceToNow(auction.startTime, { addSuffix: true })}
+              <RelativeTime date={auction.startTime} />
             </td>
             <td
               style={{
@@ -93,7 +93,7 @@ export default function AuctionTable({
                 color: "black",
               }}
             >
-              {formatDistanceToNow(auction.endTime, { addSuffix: true })}
+              <RelativeTime date={auction.endTime} />
             </td>
             <td
               style={{

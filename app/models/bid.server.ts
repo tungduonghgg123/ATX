@@ -19,7 +19,7 @@ export interface IBid {
   email: string;
   amount: number;
   currentPrice: number;
-  created_at: Date;
+  created_at: string;
   status: "success" | "failed";
   _id: mongoose.Types.ObjectId;
   auctionId: mongoose.Types.ObjectId;
