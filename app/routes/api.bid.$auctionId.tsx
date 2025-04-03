@@ -7,6 +7,7 @@ import {
   updateAuctionPrice,
 } from "../utils/mongodb.server"; // Add MongoDB utility functions
 import { IAuction } from "~/models/auction.server";
+import { IBid } from "~/models/bid.server";
 
 function verifyToken(authHeader: string | null): string {
   if (!authHeader) {
@@ -95,7 +96,11 @@ export const action = async ({
   await redis.set(`auction:${auctionId}`, JSON.stringify(auction));
 
   // Store the bid in a Redis list
-  const bidDetails = { email, bid, timestamp: new Date() };
+  const bidDetails: Partial<IBid> = {
+    email,
+    amount: bid,
+    created_at: new Date(),
+  };
   await redis.rpush(`auction:${auctionId}:bids`, JSON.stringify(bidDetails));
 
   // Publish the update to a Redis channel

@@ -6,6 +6,7 @@ import AuctionComponent from "~/components/AuctionComponent";
 import { useAuctionState } from "~/hooks/useAuctionState"; // Import the new hook
 import { getBidsByAuctionId } from "~/utils/mongodb.server";
 import BidTable from "~/components/BidTable";
+import { useBidsState } from "~/hooks/useBidsState";
 
 export const loader = async ({ params }: { params: { id: string } }) => {
   const { id } = params;
@@ -25,12 +26,12 @@ export const loader = async ({ params }: { params: { id: string } }) => {
 export default function AuctionPage() {
   const { auction, bids } = useLoaderData<typeof loader>();
   const { finalAuction } = useAuctionState(auction); // Use the new hook
-
+  const { bids: finalBids } = useBidsState(bids, auction._id); // Use the new hook for bids
   return (
     <>
       <AuctionTable auctions={[finalAuction]} />
       <AuctionComponent auction={finalAuction} />
-      <BidTable bids={bids} />
+      <BidTable bids={finalBids} />
     </>
   );
 }
