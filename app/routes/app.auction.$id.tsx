@@ -3,8 +3,7 @@ import { json } from "@remix-run/node";
 import { Auction, IAuction } from "~/models/auction.server";
 import AuctionTable from "~/components/AuctionTable";
 import AuctionComponent from "~/components/AuctionComponent";
-import { useEventSource } from "remix-utils/sse/react";
-import { useEffect, useState } from "react";
+import { useAuctionState } from "~/hooks/useAuctionState"; // Import the new hook
 import { getBidsByAuctionId } from "~/utils/mongodb.server";
 import BidTable from "~/components/BidTable";
 
@@ -25,18 +24,8 @@ export const loader = async ({ params }: { params: { id: string } }) => {
 
 export default function AuctionPage() {
   const { auction, bids } = useLoaderData<typeof loader>();
-  const [liveAuction, setLiveAuction] = useState<IAuction | null>(null);
-  const params = useParams(); // Get params in the component
-  let data = useEventSource(`/api/auction/${params.id}/live`, {
-    event: "auction",
-  });
-  const finalAuction = liveAuction || auction; // Use liveAuction if available, otherwise fallback to the initial auction
-  useEffect(() => {
-    if (data) {
-      console.log("Received data from SSE:", data);
-      setLiveAuction(JSON.parse(data));
-    }
-  }, [data]);
+  const { finalAuction } = useAuctionState(auction); // Use the new hook
+
   return (
     <>
       <AuctionTable auctions={[finalAuction]} />
