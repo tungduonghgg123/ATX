@@ -6,6 +6,13 @@ interface BidTableProps {
 }
 
 export default function BidTable({ bids }: BidTableProps) {
+  if (!bids || bids.length === 0) {
+    return (
+      <div style={{ textAlign: "center", marginTop: "20px" }}>
+        <h3>No bids available</h3>
+      </div>
+    );
+  }
   return (
     <table className="bid-table">
       <thead>

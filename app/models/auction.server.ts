@@ -22,8 +22,8 @@ export const Auction =
 
 export interface IAuction {
   name: string;
-  startTime: Date;
-  endTime: Date;
+  startTime: string;
+  endTime: string;
   startingPrice: number;
   gapPrice: number;
   currentPrice: number;

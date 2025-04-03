@@ -1,17 +1,20 @@
 import React, { useState } from "react";
 import { IAuction } from "~/models/auction.server";
 import { JWT_TOKEN_KEY } from "~/routes/app.login";
-import { addThousandSeparator } from "~/utils/numberFormatter";
+import {
+  addThousandSeparator,
+  checkAuctionActive,
+} from "~/utils/numberFormatter";
 
 const AuctionComponent = ({ auction }: { auction: IAuction }) => {
   const [bidAmount, setBidAmount] = useState("");
   const [errorMessage, setErrorMessage] = useState(""); // Added state for error message
   const currentTime = new Date();
 
-  const isAuctionActive =
-    currentTime >= new Date(auction.startTime) &&
-    currentTime <= new Date(auction.endTime);
-
+  const isAuctionActive = checkAuctionActive(
+    auction.startTime,
+    auction.endTime
+  );
   const hasAuctionStarted = currentTime >= new Date(auction.startTime);
   const hasAuctionEnded = currentTime > new Date(auction.endTime);
 

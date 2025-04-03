@@ -8,6 +8,7 @@ import {
 } from "../utils/mongodb.server"; // Add MongoDB utility functions
 import { IAuction } from "~/models/auction.server";
 import { IBid } from "~/models/bid.server";
+import { checkAuctionActive } from "~/utils/numberFormatter";
 
 function verifyToken(authHeader: string | null): string {
   if (!authHeader) {
@@ -67,6 +68,9 @@ export const action = async ({
   }
   if (!auction) {
     return json({ error: "Auction not found" }, { status: 404 });
+  }
+  if (!checkAuctionActive(auction.startTime, auction.endTime)) {
+    return json({ error: "Auction is not active" }, { status: 400 });
   }
   // Validate the bid
   if (bid < auction.startingPrice) {
