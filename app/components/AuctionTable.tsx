@@ -1,7 +1,7 @@
 import { useNavigate } from "@remix-run/react";
 import { addThousandSeparator } from "~/utils/numberFormatter";
 import { IAuction } from "~/models/auction.server";
-
+import { formatDistanceToNow } from "date-fns";
 interface AuctionTableProps {
   auctions: IAuction[];
   disableOnClick?: boolean; // New prop to disable onClick
@@ -84,14 +84,7 @@ export default function AuctionTable({
                 color: "black",
               }}
             >
-              {new Date(auction.startTime).toLocaleString("en-GB", {
-                day: "2-digit",
-                month: "2-digit",
-                year: "numeric",
-                hour: "2-digit",
-                minute: "2-digit",
-                second: "2-digit",
-              })}
+              {formatDistanceToNow(auction.startTime, { addSuffix: true })}
             </td>
             <td
               style={{
@@ -100,14 +93,7 @@ export default function AuctionTable({
                 color: "black",
               }}
             >
-              {new Date(auction.endTime).toLocaleString("en-GB", {
-                day: "2-digit",
-                month: "2-digit",
-                year: "numeric",
-                hour: "2-digit",
-                minute: "2-digit",
-                second: "2-digit",
-              })}
+              {formatDistanceToNow(auction.endTime, { addSuffix: true })}
             </td>
             <td
               style={{

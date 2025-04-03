@@ -1,6 +1,6 @@
 import { addThousandSeparator } from "~/utils/numberFormatter";
 import { IBid } from "~/models/bid.server";
-
+import { formatDistanceToNow } from "date-fns";
 interface BidTableProps {
   bids: IBid[];
 }
@@ -53,14 +53,7 @@ export default function BidTable({ bids }: BidTableProps) {
                 color: "black",
               }}
             >
-              {new Date(bid.created_at).toLocaleString("en-GB", {
-                day: "2-digit",
-                month: "2-digit",
-                year: "numeric",
-                hour: "2-digit",
-                minute: "2-digit",
-                second: "2-digit",
-              })}
+              {formatDistanceToNow(bid.created_at, { addSuffix: true })}
             </td>
             <td
               style={{
