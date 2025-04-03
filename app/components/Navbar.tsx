@@ -80,7 +80,25 @@ export default function Navbar() {
       </ul>
       <div>
         {userEmail ? (
-          <span style={{ color: "#fff" }}>{userEmail}</span>
+          <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+            <span style={{ color: "#fff" }}>{userEmail}</span>
+            <button
+              onClick={() => {
+                localStorage.removeItem(JWT_TOKEN_KEY);
+                setUserEmail(null);
+                window.dispatchEvent(new Event(LOCAL_STORAGE_UPDATED_EVENT));
+              }}
+              style={{
+                backgroundColor: "#f00",
+                color: "#fff",
+                border: "none",
+                padding: "5px 10px",
+                cursor: "pointer",
+              }}
+            >
+              Logout
+            </button>
+          </div>
         ) : (
           <div style={{ display: "flex", gap: "10px" }}>
             <Link
