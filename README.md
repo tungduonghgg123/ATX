@@ -17,3 +17,18 @@ docker-compose up -d
 ```shellscript
 npm run dev
 ```
+
+4. To create the auction, make the POST API to /api/auction. You can use the attached postman collection in this repo for your convenience.
+
+   Sample payload:
+
+```shellscript
+{
+      "name": "Audi car 2025 edition",
+      "startTime": "2025-04-04T10:00:00",
+      "endTime": "2025-04-04T10:17:00",
+      "startingPrice": 5,
+      "gapPrice": 3,
+      "currentPrice": 5
+}
+```
