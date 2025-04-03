@@ -6,6 +6,7 @@ import AuctionComponent from "~/components/AuctionComponent";
 import { useEventSource } from "remix-utils/sse/react";
 import { useEffect, useState } from "react";
 import { getBidsByAuctionId } from "~/utils/mongodb.server";
+import BidTable from "~/components/BidTable";
 
 export const loader = async ({ params }: { params: { id: string } }) => {
   const { id } = params;
@@ -40,6 +41,7 @@ export default function AuctionPage() {
     <>
       <AuctionTable auctions={[finalAuction]} />
       <AuctionComponent auction={finalAuction} />
+      <BidTable bids={bids} />
     </>
   );
 }

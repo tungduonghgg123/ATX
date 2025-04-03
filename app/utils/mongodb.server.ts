@@ -32,5 +32,5 @@ export async function createBid(
   return bid.save();
 }
 export async function getBidsByAuctionId(auctionId: string) {
-  return Bid.find<IBid[]>({ auctionId });
+  return Bid.find<IBid[]>({ auctionId }).sort({ created_at: -1 });
 }
