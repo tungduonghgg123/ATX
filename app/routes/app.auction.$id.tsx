@@ -36,10 +36,11 @@ export default function AuctionPage() {
   const { finalAuction } = useAuctionState(auction); // Use the new hook
   const { bids: finalBids } = useBidsState(bids, auction._id); // Use the new hook for bids
   return (
-    <>
+    <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
       <AuctionTable auctions={[finalAuction]} disableOnClick />
       <AuctionComponent auction={finalAuction} />
+      <h2 style={{ textAlign: "center" }}>Bids</h2>
       <BidTable bids={finalBids} />
-    </>
+    </div>
   );
 }
