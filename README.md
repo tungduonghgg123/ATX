@@ -1,4 +1,4 @@
-# Welcome to Remix!
+# ATX Interview problem implementation
 
 - 📖 [Auction flow design](https://swimlanes.io/u/f8duO9PG02) (Kafka integration is not implemented yet)
 
