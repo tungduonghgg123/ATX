@@ -4,13 +4,13 @@
 
 ## Development
 
-1. Run docker to have mongodb and redis ready
+1. Create the .env file from the .env.example file (if the specified ports are occupied already in your computer, please specify the replacement and update in docker-compose accordingly as well)
+
+2. Run docker to have mongodb and redis ready
 
 ```shellscript
 docker-compose up -d
 ```
-
-2. Create the .env file from the .env.example file
 
 3. Run the dev server:
 
@@ -18,7 +18,7 @@ docker-compose up -d
 npm run dev
 ```
 
-4. To create the auction, make the POST API to /api/auction. You can use the attached postman collection in this repo for your convenience.
+4. To create an auction, make the POST API to /api/auction. You can use the attached postman collection in this repo for your convenience.
 
    Sample payload:
 
@@ -32,3 +32,5 @@ npm run dev
       "currentPrice": 5
 }
 ```
+
+5. Access to the /app/auction route in the website to browse the auctions and click on one to view detail and do your bidding
