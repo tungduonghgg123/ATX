@@ -52,6 +52,11 @@ export default function AuctionTable({
           >
             Winner
           </th>
+          <th
+            style={{ border: "1px solid #ddd", padding: "8px", color: "black" }}
+          >
+            Status
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -130,6 +135,24 @@ export default function AuctionTable({
               }}
             >
               {auction.winner || "N/A"}
+            </td>
+            <td
+              style={{
+                border: "1px solid #ddd",
+                padding: "8px",
+                color:
+                  new Date() < new Date(auction.startTime)
+                    ? "blue"
+                    : new Date() <= new Date(auction.endTime)
+                    ? "green"
+                    : "red",
+              }}
+            >
+              {new Date() < new Date(auction.startTime)
+                ? "Not Started"
+                : new Date() <= new Date(auction.endTime)
+                ? "In Progress"
+                : "Ended"}
             </td>
           </tr>
         ))}
