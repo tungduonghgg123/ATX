@@ -54,7 +54,6 @@ export default function BidTable({ bids }: BidTableProps) {
                 color: "black",
               }}
             >
-              {formatDistanceToNow(bid.created_at, { addSuffix: true })}
               <RelativeTime date={bid.created_at} />
             </td>
             <td
