@@ -1,15 +1,16 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Add this import
+import { useNavigate } from "react-router-dom";
+import AuthForm from "~/components/AuthForm";
 
 export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const navigate = useNavigate(); // Initialize navigate
+  const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(""); // Clear previous errors
+    setError("");
 
     if (!email || !password) {
       setError("Email and password are required.");
@@ -26,13 +27,12 @@ export default function Register() {
       });
 
       const data = await response.json();
-
       if (response.status >= 400) {
         setError(data.message || "Registration failed.");
         return;
       }
 
-      alert("Registration successful!"); // Show success toast
+      alert("Registration successful!");
       navigate("/app/login");
     } catch (err) {
       setError("An error occurred during registration.");
@@ -40,28 +40,15 @@ export default function Register() {
   };
 
   return (
-    <div>
-      <h1>Register</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Email:</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-        <div>
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <button type="submit">Register</button>
-      </form>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-    </div>
+    <AuthForm
+      title="Register"
+      email={email}
+      password={password}
+      error={error}
+      onEmailChange={(e) => setEmail(e.target.value)}
+      onPasswordChange={(e) => setPassword(e.target.value)}
+      onSubmit={handleRegister}
+      buttonText="Register"
+    />
   );
 }

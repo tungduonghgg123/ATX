@@ -1,18 +1,19 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Add this import
+import { useNavigate } from "react-router-dom";
 import { LOCAL_STORAGE_UPDATED_EVENT } from "~/components/Navbar";
+import AuthForm from "~/components/AuthForm";
 
-export const JWT_TOKEN_KEY = "jwtToken"; // Export the jwtToken key constant
+export const JWT_TOKEN_KEY = "jwtToken";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const navigate = useNavigate(); // Initialize navigate
+  const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(""); // Clear previous errors
+    setError("");
 
     if (!email || !password) {
       setError("Email and password are required.");
@@ -34,39 +35,25 @@ export default function Login() {
         return;
       }
 
-      localStorage.setItem(JWT_TOKEN_KEY, data.token); // Use the exported constant
+      localStorage.setItem(JWT_TOKEN_KEY, data.token);
       window.dispatchEvent(new Event(LOCAL_STORAGE_UPDATED_EVENT));
-      alert("Login successful!"); // Show toast notification
-      navigate("/app"); // Navigate to /app
-      console.log("Login successful:", data);
+      alert("Login successful!");
+      navigate("/app");
     } catch (err) {
       setError("An error occurred during login.");
     }
   };
 
   return (
-    <div>
-      <h1>Login</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Email:</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-        <div>
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <button type="submit">Login</button>
-      </form>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-    </div>
+    <AuthForm
+      title="Login"
+      email={email}
+      password={password}
+      error={error}
+      onEmailChange={(e) => setEmail(e.target.value)}
+      onPasswordChange={(e) => setPassword(e.target.value)}
+      onSubmit={handleLogin}
+      buttonText="Login"
+    />
   );
 }
