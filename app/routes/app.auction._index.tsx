@@ -1,6 +1,7 @@
 import { json, MetaFunction, useLoaderData } from "@remix-run/react";
 import { Auction, IAuction } from "~/models/auction.server";
 import AuctionTable from "~/components/AuctionTable";
+import { maskEmail } from "~/utils/maskEmail";
 
 export const meta: MetaFunction = () => {
   return [{ title: "ATX Auction" }];
@@ -8,7 +9,11 @@ export const meta: MetaFunction = () => {
 
 export const loader = async () => {
   const auctions = await Auction.find().lean<IAuction[]>();
-  return json(auctions, { status: 200 });
+  const maskedAuctions = auctions.map((auction) => ({
+    ...auction,
+    winner: maskEmail(auction.winner || ""), // Assuming email is a field in the auction model
+  }));
+  return json(maskedAuctions, { status: 200 });
 };
 
 export default function AuctionPage() {

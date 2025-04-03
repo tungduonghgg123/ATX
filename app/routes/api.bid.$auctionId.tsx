@@ -9,6 +9,7 @@ import {
 import { IAuction } from "~/models/auction.server";
 import { IBid } from "~/models/bid.server";
 import { checkAuctionActive } from "~/utils/numberFormatter";
+import { maskEmail } from "~/utils/maskEmail";
 
 function verifyToken(authHeader: string | null): string {
   if (!authHeader) {
@@ -93,7 +94,7 @@ export const action = async ({
 
   // Update the new price in Redis and MongoDB
   auction.currentPrice = bid;
-  auction.winner = email; // Update the winner
+  auction.winner = maskEmail(email); // Update the winner
   auction.modified_at = new Date(); // Update the modified date
 
   // Cache the updated auction data in Redis
@@ -101,9 +102,9 @@ export const action = async ({
 
   // Store the bid in a Redis list
   const bidDetails: Partial<IBid> = {
-    email,
+    email: maskEmail(email),
     amount: bid,
-    created_at: new Date(),
+    created_at: new Date().toISOString(),
   };
   await redis.rpush(`auction:${auctionId}:bids`, JSON.stringify(bidDetails));
 

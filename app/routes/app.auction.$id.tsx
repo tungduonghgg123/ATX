@@ -7,6 +7,7 @@ import { useAuctionState } from "~/hooks/useAuctionState"; // Import the new hoo
 import { getBidsByAuctionId } from "~/utils/mongodb.server";
 import BidTable from "~/components/BidTable";
 import { useBidsState } from "~/hooks/useBidsState";
+import { maskEmail } from "~/utils/maskEmail"; // Import the reusable function
 
 export const loader = async ({ params }: { params: { id: string } }) => {
   const { id } = params;
@@ -19,11 +20,12 @@ export const loader = async ({ params }: { params: { id: string } }) => {
   if (!auction) {
     throw new Response("Auction not found", { status: 404 });
   }
+  auction.winner = maskEmail(auction.winner || ""); // Mask the winner's email
 
   // Mask email in bids
   const maskedBids = bids.map((bid) => ({
     ...bid,
-    email: bid.email.replace(/(.{2}).+(@.+)/, "$1***$2"), // Mask email
+    email: maskEmail(bid.email), // Use the reusable function
   }));
 
   return json({ auction, bids: maskedBids }); // Wrap the auction in a json response
