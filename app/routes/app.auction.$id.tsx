@@ -20,7 +20,13 @@ export const loader = async ({ params }: { params: { id: string } }) => {
     throw new Response("Auction not found", { status: 404 });
   }
 
-  return json({ auction, bids }); // Wrap the auction in a json response
+  // Mask email in bids
+  const maskedBids = bids.map((bid) => ({
+    ...bid,
+    email: bid.email.replace(/(.{2}).+(@.+)/, "$1***$2"), // Mask email
+  }));
+
+  return json({ auction, bids: maskedBids }); // Wrap the auction in a json response
 };
 
 export default function AuctionPage() {
