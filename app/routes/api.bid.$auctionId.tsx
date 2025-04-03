@@ -1,7 +1,11 @@
 import { json } from "@remix-run/node";
 import jwt from "jsonwebtoken";
 import redis from "../utils/redis.server"; // Adjust the import path as needed
-import { getAuctionById, updateAuctionPrice } from "../utils/mongodb.server"; // Add MongoDB utility functions
+import {
+  createBid,
+  getAuctionById,
+  updateAuctionPrice,
+} from "../utils/mongodb.server"; // Add MongoDB utility functions
 import { IAuction } from "~/models/auction.server";
 
 function verifyToken(authHeader: string | null): string {
@@ -95,6 +99,7 @@ export const action = async ({
 
   // Update the auction price in MongoDB
   await updateAuctionPrice(auctionId, bid, email);
+  await createBid(email, auctionId, bid, auction.currentPrice, "success");
 
   return json(
     { message: "Bid accepted", currentPrice: bid, email },
