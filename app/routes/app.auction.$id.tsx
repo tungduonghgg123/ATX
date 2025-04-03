@@ -5,6 +5,7 @@ import AuctionTable from "~/components/AuctionTable";
 import AuctionComponent from "~/components/AuctionComponent";
 import { useEventSource } from "remix-utils/sse/react";
 import { useEffect, useState } from "react";
+import { getBidsByAuctionId } from "~/utils/mongodb.server";
 
 export const loader = async ({ params }: { params: { id: string } }) => {
   const { id } = params;
@@ -13,15 +14,16 @@ export const loader = async ({ params }: { params: { id: string } }) => {
   }
 
   const auction = await Auction.findById<IAuction>(id); // Use Auction.findById to fetch the auction
+  const bids = await getBidsByAuctionId(id); // Fetch bids for the auction
   if (!auction) {
     throw new Response("Auction not found", { status: 404 });
   }
 
-  return json(auction); // Wrap the auction in a json response
+  return json({ auction, bids }); // Wrap the auction in a json response
 };
 
 export default function AuctionPage() {
-  const auction = useLoaderData<typeof loader>();
+  const { auction, bids } = useLoaderData<typeof loader>();
   const [liveAuction, setLiveAuction] = useState<IAuction | null>(null);
   const params = useParams(); // Get params in the component
   let data = useEventSource(`/api/auction/${params.id}/live`, {
