@@ -4,9 +4,13 @@ import { IAuction } from "~/models/auction.server";
 
 interface AuctionTableProps {
   auctions: IAuction[];
+  disableOnClick?: boolean; // New prop to disable onClick
 }
 
-export default function AuctionTable({ auctions }: AuctionTableProps) {
+export default function AuctionTable({
+  auctions,
+  disableOnClick,
+}: AuctionTableProps) {
   const navigate = useNavigate();
 
   return (
@@ -55,7 +59,14 @@ export default function AuctionTable({ auctions }: AuctionTableProps) {
           <tr
             key={auction._id}
             className="auction-row"
-            onClick={() => navigate(`/app/auction/${auction._id}`)}
+            style={{
+              cursor: disableOnClick ? "default" : "pointer",
+            }}
+            onClick={
+              !disableOnClick
+                ? () => navigate(`/app/auction/${auction._id}`)
+                : undefined
+            } // Conditional onClick
           >
             <td
               style={{

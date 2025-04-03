@@ -29,7 +29,7 @@ export default function AuctionPage() {
   const { bids: finalBids } = useBidsState(bids, auction._id); // Use the new hook for bids
   return (
     <>
-      <AuctionTable auctions={[finalAuction]} />
+      <AuctionTable auctions={[finalAuction]} disableOnClick />
       <AuctionComponent auction={finalAuction} />
       <BidTable bids={finalBids} />
     </>
