@@ -33,7 +33,7 @@ export default function Register() {
       }
 
       alert("Registration successful!"); // Show success toast
-      navigate("/app"); // Redirect to /app
+      navigate("/app/login");
     } catch (err) {
       setError("An error occurred during registration.");
     }
