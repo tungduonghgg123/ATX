@@ -1,6 +1,6 @@
 # Welcome to Remix!
 
-- 📖 [Auction flow](https://swimlanes.io/u/f8duO9PG02) (Em chưa kịp implement Kafka)
+- 📖 [Auction flow design](https://swimlanes.io/u/f8duO9PG02) (Kafka integration is not implemented yet)
 
 ## Development
 
