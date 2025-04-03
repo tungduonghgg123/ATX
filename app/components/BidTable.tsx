@@ -13,11 +13,6 @@ export default function BidTable({ bids }: BidTableProps) {
           <th
             style={{ border: "1px solid #ddd", padding: "8px", color: "black" }}
           >
-            Bidder
-          </th>
-          <th
-            style={{ border: "1px solid #ddd", padding: "8px", color: "black" }}
-          >
             Amount
           </th>
           <th
@@ -25,20 +20,16 @@ export default function BidTable({ bids }: BidTableProps) {
           >
             Time
           </th>
+          <th
+            style={{ border: "1px solid #ddd", padding: "8px", color: "black" }}
+          >
+            Bidder
+          </th>
         </tr>
       </thead>
       <tbody>
         {bids.map((bid) => (
           <tr key={bid._id} className="bid-row">
-            <td
-              style={{
-                border: "1px solid #ddd",
-                padding: "8px",
-                color: "black",
-              }}
-            >
-              {bid.email}
-            </td>
             <td
               style={{
                 border: "1px solid #ddd",
@@ -63,6 +54,15 @@ export default function BidTable({ bids }: BidTableProps) {
                 minute: "2-digit",
                 second: "2-digit",
               })}
+            </td>
+            <td
+              style={{
+                border: "1px solid #ddd",
+                padding: "8px",
+                color: "black",
+              }}
+            >
+              {bid.email}
             </td>
           </tr>
         ))}
