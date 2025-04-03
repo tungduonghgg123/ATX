@@ -8,9 +8,9 @@ import {
 
 const AuctionComponent = ({ auction }: { auction: IAuction }) => {
   const [bidAmount, setBidAmount] = useState("");
-  const [errorMessage, setErrorMessage] = useState(""); // Added state for error message
-  const currentTime = new Date();
+  const [errorMessage, setErrorMessage] = useState("");
 
+  const currentTime = new Date();
   const isAuctionActive = checkAuctionActive(
     auction.startTime,
     auction.endTime
@@ -20,6 +20,7 @@ const AuctionComponent = ({ auction }: { auction: IAuction }) => {
 
   const handleBidSubmit = async () => {
     const bid = parseFloat(bidAmount);
+
     if (isNaN(bid)) {
       setErrorMessage("Please enter a valid number.");
       return;
@@ -72,21 +73,71 @@ const AuctionComponent = ({ auction }: { auction: IAuction }) => {
   };
 
   return (
-    <div>
-      {!hasAuctionStarted && <p>The auction is not started yet.</p>}
-      {hasAuctionEnded && <p>The auction has ended.</p>}
+    <div style={{ fontFamily: "Arial, sans-serif" }}>
+      {!hasAuctionStarted && (
+        <p style={{ color: "gray", fontStyle: "italic" }}>
+          The auction is not started yet.
+        </p>
+      )}
+      {hasAuctionEnded && (
+        <p style={{ color: "gray", fontStyle: "italic" }}>
+          The auction has ended.
+        </p>
+      )}
       {isAuctionActive && (
-        <div>
+        <div
+          style={{
+            border: "1px solid #ccc",
+            borderRadius: "8px",
+            padding: "16px",
+            maxWidth: "400px",
+            margin: "0",
+            backgroundColor: "#f9f9f9",
+          }}
+        >
+          <h2 style={{ textAlign: "center", marginBottom: "16px" }}>
+            Place Your Bid
+          </h2>
           <input
             type="number"
             value={bidAmount}
             onChange={(e) => setBidAmount(e.target.value)}
             placeholder="Enter your bid"
+            style={{
+              width: "100%",
+              padding: "8px",
+              marginBottom: "12px",
+              border: "1px solid #ccc",
+              borderRadius: "4px",
+            }}
           />
-          <button onClick={handleBidSubmit} disabled={!isAuctionActive}>
+          <button
+            onClick={handleBidSubmit}
+            disabled={!isAuctionActive}
+            style={{
+              width: "100%",
+              padding: "10px",
+              backgroundColor: isAuctionActive ? "#007bff" : "#ccc",
+              color: "white",
+              border: "none",
+              borderRadius: "4px",
+              cursor: isAuctionActive ? "pointer" : "not-allowed",
+            }}
+          >
             Submit Bid
           </button>
-          {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+          {errorMessage && (
+            <p
+              style={{
+                color: "red",
+                marginTop: "12px",
+                textAlign: "center",
+                fontWeight: "bold",
+              }}
+            >
+              {errorMessage}
+            </p>
+          )}
         </div>
       )}
     </div>
