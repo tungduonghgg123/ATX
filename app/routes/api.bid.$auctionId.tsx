@@ -94,8 +94,18 @@ export const action = async ({
   // Cache the updated auction data in Redis
   await redis.set(`auction:${auctionId}`, JSON.stringify(auction));
 
+  // Store the bid in a Redis list
+  const bidDetails = { email, bid, timestamp: new Date() };
+  await redis.rpush(`auction:${auctionId}:bids`, JSON.stringify(bidDetails));
+
   // Publish the update to a Redis channel
   await redis.publish(`auction:${auctionId}:updates`, JSON.stringify(auction));
+
+  // Publish the new bid details to a Redis channel
+  await redis.publish(
+    `auction:${auctionId}:new-bid`,
+    JSON.stringify(bidDetails)
+  );
 
   // Update the auction price in MongoDB
   await updateAuctionPrice(auctionId, bid, email);
