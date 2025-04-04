@@ -95,7 +95,13 @@ const AuctionComponent = ({ auction }: { auction: IAuction }) => {
             backgroundColor: "#f9f9f9",
           }}
         >
-          <h2 style={{ textAlign: "center", marginBottom: "16px" }}>
+          <h2
+            style={{
+              textAlign: "center",
+              marginBottom: "16px",
+              color: "black",
+            }}
+          >
             Place Your Bid
           </h2>
           <input

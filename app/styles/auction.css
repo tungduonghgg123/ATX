@@ -27,3 +27,7 @@
 .auction-row:hover {
     background-color: #e6f7ff;
 }
+
+.bid-row {
+    background-color: #ffffff;
+}
