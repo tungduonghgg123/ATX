@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "3d508147-6da9-4498-833e-1f7ed1bc0d38",
+		"_postman_id": "73b00217-0f3c-4264-b66d-ea4093ea5837",
 		"name": "ATX",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "3675370"
@@ -80,7 +80,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"email\": \"tungduonghgg123@gmail.com\",\n    \"password\": \"123456\"\n}",
+					"raw": "{\n      \"name\": \"Audi car 2025 edition\",\n      \"startTime\": \"2025-04-04T14:05:00\",\n      \"endTime\": \"2025-04-04T14:17:00\",\n      \"startingPrice\": 5,\n      \"gapPrice\": 3,\n      \"currentPrice\": 5\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -88,7 +88,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:5173/api/login",
+					"raw": "http://localhost:5173/api/auction",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -96,7 +96,7 @@
 					"port": "5173",
 					"path": [
 						"api",
-						"login"
+						"auction"
 					]
 				}
 			},
