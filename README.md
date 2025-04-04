@@ -12,9 +12,16 @@
 docker-compose up -d
 ```
 
+or
+
+```shellscript
+docker compose up -d
+```
+
 3. Run the dev server:
 
 ```shellscript
+npm install
 npm run dev
 ```
 
